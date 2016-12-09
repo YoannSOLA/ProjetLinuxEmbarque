@@ -8,6 +8,9 @@
 #include <string.h>
 #include <sys/types.h>
 #include <syslog.h>
+#include "as_gpio.h"
+
+#define LED_GPIO	21
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +41,16 @@ int main(int argc, char *argv[])
     bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
     listen(listenfd, 10);
 
+	// Initialisation GPIO driver
+	struct as_gpio_device *led;
+	led = as_gpio_open(LED_GPIO);
+	if(led == NULL)
+	{
+		printf("Error: can't open gpio\n");
+		exit(1);
+	}
+	as_gpio_set_pin_direction(led,"out");
+
     // listen
     printf("Server is listening...\n");
     while (1)
@@ -47,11 +60,20 @@ int main(int argc, char *argv[])
 
         if (bytes > 0)
         close(connfd);
-        printf("%s",recv_buff);
-        fflush(stdout);
-        syslog(LOG_NOTICE, "Message received: %s", recv_buff);
+            syslog(LOG_NOTICE, "Message received: %s", recv_buff);
+		
+		if (recv_buff == 1) //allumer LED
+		{
+			as_gpio_set_pin_value(led,1);
+		}
+
+		else if (recv_buff == 0) //eteindre LED
+		{
+			as_gpio_set_pin_value(led,0);
+		} 
     }
 
+	as_gpio_close(led);
     close(listenfd);
     closelog();
 }
