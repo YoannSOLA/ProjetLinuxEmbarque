@@ -1,0 +1,50 @@
+// installer les outils nécessaires
+
+sudo apt-get install autotools-dev
+sudo apt-get install automake
+sudo apt-get install libtool
+
+// modifier la fin du fichier Makefile.am
+
+bin_PROGRAMS = src/client/client src/miniserver/miniserver
+client_SOURCES = src/client/client.c
+miniserver_SOURCES = src/miniserver/miniserver.c
+
+// mettre à la fin de la boucle while de serveur.c
+
+close(connfd);
+printf("%s",recv_buff);
+fflush(stdout);
+syslog(LOG_NOTICE, "Message received: %s", recv_buff);
+
+// pour compiler tous le projet faire
+
+sh autogen.sh
+./configure
+make
+
+OU
+
+sh autogen.sh && ./configure && make
+
+
+// astuce : pour effacer tout ce que le Makefile a généré
+
+make maintainer-clean
+
+
+// exécution client
+
+./client 127.0.0.1 message
+
+
+
+//  les log du serveurs (l'historique des activités) sont stockés dans :
+
+/var/log/syslog
+
+
+
+
+
+
