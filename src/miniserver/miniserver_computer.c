@@ -8,7 +8,9 @@
 #include <string.h>
 #include <sys/types.h>
 #include <syslog.h>
-#include <string.h>
+#include <netdb.h>
+
+#include "morseDecrypt.h"
 
 int len(char* chaine){
     int i;
@@ -68,8 +70,7 @@ int main(int argc, char *argv[])
     socklen_t lgadresse=0;
 
     char *code ="auegfusygfus";
-    char *encrypted_message=malloc(100*sizeof(char));
-    char *message=malloc(100*sizeof(char));
+    
 
     memset(recv_buff, '0', sizeof(recv_buff));
 
@@ -103,22 +104,25 @@ int main(int argc, char *argv[])
         if (bytes > 0)
         close(connfd);
         
-
-	int i =0;
-        while(recv_buff[i]!='\0'){
-		encrypted_message[i]=recv_buff[i];		
-		i++;
-        }
+	char *message=malloc(100*sizeof(char));
+        char* sortie_morse = malloc(100*sizeof(char));
 	
 	// message receive
-	printf("Message reçu : %s\n",encrypted_message);
+	printf("Message reçu : %s\n",recv_buff);
+	
+	// decyptage morse
+	morseDecrypt(recv_buff, sortie_morse);
+	printf("Decryptage du morse : %s\n", sortie_morse);
 
-	// vigenere
-	vigenereDecript(encrypted_message,message,code);
+	// decryptage vigenere
+	vigenereDecript(sortie_morse,message,code);
 	printf("Decryptage par viginere : %s\n",message);
 
+	free(message);
+	free(sortie_morse);
+
         fflush(stdout);
-        syslog(LOG_NOTICE, "Message received: %s", encrypted_message);
+        syslog(LOG_NOTICE, "Message received: %s", recv_buff);
 
     }
 
