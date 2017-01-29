@@ -29,5 +29,5 @@ Pour tester le miniserver_computer, il faut effectuer dans l'ordre les étapes s
    
 4. Le serveur va recevoir et afficher le message crypté par chiffre de Vigenère (mais non codé en morse), va le décrypté et afficher le résultat (le message en clair).
 
-     /!\ Si la clé de chiffrage a été modifié dans le client.c, il faut penser à actualiser la valeur de la variable "", présente dans le fichier ProjetLinuxEmbarque/src/miniserver/miniserver_computer.c
+     /!\ Si la clé de chiffrage a été modifié dans le client.c, il faut penser à actualiser la valeur de la variable "char *code", présente dans le fichier ProjetLinuxEmbarque/src/miniserver/miniserver_computer.c
    
