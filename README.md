@@ -19,7 +19,7 @@ Pour tester le miniserver_computer, il faut effectuer dans l'ordre les étapes s
    
    L'argument {message} doit être remplacé par le message que le client veut envoyer au serveur.
    
-   /!\ Le message ne doit contenir que des lettres majuscules. Les lettres minuscules et les chiifres ne sont pas permises.
+   /!\ Le message ne doit contenir que des lettres majuscules. Les lettres minuscules et les chifres ne sont pas permis.
      
 3. Le client va alors afficher le message à envoyer en clair, puis son cryptage par chiffre de vigenère, et enfin le codage en morse du message crypté. Il va ensuite envoyer ce dernier au serveur.
    
